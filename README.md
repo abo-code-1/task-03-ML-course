@@ -13,7 +13,44 @@ call, and score the 8,236 calls of `data/test.csv`.
 | 4 | Stratified 80/20 development/hold-out split, preprocessing `ColumnTransformer` (pdays flag, one-hot with `unknown`) | done |
 | 5 | Dummy and logistic baselines, decision tree, random forest, gradient boosting on shared 5-fold CV | done |
 | 6 | Tuning logistic regression (grid) and gradient boosting (random search) on average precision; model choice | done |
-| 7–8 | Final evaluation and threshold, refit, save, reload, score `test.csv` | to do |
+| 7 | Threshold from out-of-fold F1 on the development set, single hold-out evaluation, precision–recall and gains | done |
+| 8 | Refit on all of `train.csv`, save with `joblib`, reload in a fresh process, write `predictions.csv`; conclusions | done |
+
+## Results
+
+Final model: gradient boosting (`HistGradientBoostingClassifier`, tuned on average precision) inside one scikit-learn
+pipeline with its preprocessing, decision threshold 0.211 (best out-of-fold F1).
+
+| | Average precision | ROC AUC |
+|---|---|---|
+| Guessing (base rate) | 0.113 | 0.500 |
+| 5-fold CV, development set | 0.480 | 0.804 |
+| **Hold-out (20 %, scored once)** | **0.444** | **0.792** |
+
+On the hold-out, at threshold 0.211, the model calls 14 % of clients. 45 % of those calls succeed and they reach
+55 % of all subscribers.
+
+## Files
+
+| File | What it is |
+|---|---|
+| `Imamsidikov_task3.ipynb` | The whole project, executed, with outputs |
+| `Imamsidikov_task3_model.joblib` | Final model, refitted on all of `train.csv` (`FixedThresholdClassifier` around the pipeline) |
+| `predictions.csv` | `id`, `y` (`yes` / `no` at threshold 0.211) and `p_yes` for the 8,236 rows of `test.csv` |
+
+## Load the model
+
+Only the pinned libraries are needed. The model takes the raw `test.csv`; it selects its 19 columns by name and ignores `id`.
+
+```python
+import joblib
+import pandas as pd
+
+model = joblib.load("Imamsidikov_task3_model.joblib")
+test = pd.read_csv("data/test.csv")
+labels = model.predict(test)                  # 'yes' / 'no' at threshold 0.211
+p_yes = model.predict_proba(test)[:, 1]       # model.classes_ == ['no', 'yes']
+```
 
 ## Run
 
