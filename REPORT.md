@@ -30,11 +30,11 @@ About 26% of rows have at least one "unknown" value. They were actually useful, 
 
 I put all preprocessing into one ColumnTransformer inside a Pipeline with the model. For pdays I changed 999 to -1 and added a 0/1 column for it. Numbers are scaled with StandardScaler and categories are one-hot encoded. Because everything is in a Pipeline, nothing leaks between CV folds.
 
-I split train.csv into 80% development set, where I used 5-fold cross-validation, and 20% hold-out set that I didn't touch until the end.
+I split train.csv into 80% development set, where I used 5-fold stratified cross-validation, and 20% hold-out set that I didn't touch until the end.
 
 ## 5. Models I tried
 
-The dummy model got AP 0.113, decision tree 0.428, logistic regression 0.457, and random forest and gradient boosting both got 0.476. So there is real signal even without duration.
+The dummy model got AP 0.113, decision tree 0.428, logistic regression 0.457, and random forest and gradient boosting both got 0.476. ROC AUC was 0.794 for logistic regression and 0.803 for gradient boosting. So there is real signal even without duration.
 
 I also tried balanced class weights in logistic regression, but AP stayed the same. It only moved recall up and precision down, so it works like changing the threshold. Gradient boosting was about six times faster then random forest with the same score, so I picked it for tuning.
 
@@ -50,15 +50,15 @@ With only 11% yes, the default 0.5 threshold is too strict and finds only about 
 
 On the hold-out set the model got AP 0.444 and ROC AUC 0.792. It's a bit lower than in cross-validation, because of random noise and because picking the best of 40 settings makes CV a little too optimistic. Still, it is about four times better than guessing.
 
-In practice the model would call 14% of clients, and 45% of these calls end with yes, while random calls give only 11%. If the bank called the top 20% of clients by score, it would reach 63% of all subscribers.
+In practice the model would call 14% of clients, and 45% of these calls end with yes, while random calls give only 11%. Together these calls reach 55% of all clients who would subscribe. If the bank called the top 20% of clients by score, it would reach 63% of all subscribers.
 
 ## 9. Final model and predictions
 
-At the end I trained the model on all of train.csv and saved it with joblib as Imamsidikov_task3_model.joblib. It is wrapped in FixedThresholdClassifier, so predict() gives yes or no directly. I loaded it in a seperate Python process and got exactly the same predictions as in the notebook. The model says yes for 14% of test clients. Predictions are in predictions.csv with columns id, y and p_yes.
+At the end I trained the model on all of train.csv and saved it with joblib as Imamsidikov_task3_model.joblib. It is wrapped in FixedThresholdClassifier, so predict() gives yes or no directly. I loaded it in a seperate Python process and got exactly the same predictions as in the notebook. The model says yes for 14% of test clients, and the average predicted probability is 0.110, close to 0.113 in train, so test data looks similar to training data. Predictions are in predictions.csv with columns id, y and p_yes.
 
 ## 10. Limitations
 
-The strongest features show more when the call was made than who the client is, so on a new campaign with different economy the model would probably work worse. F1 also treats a wasted call and a missed client the same, but a real bank would use real costs. And test.csv has no labels, so I can't check how good the test predictions really are.
+The strongest features show more when the call was made than who the client is, so on a new campaign with different economy the model would probably work worse. I couldn't check this with a split by time, because the data has no year column. F1 also treats a wasted call and a missed client the same, but a real bank would use real costs. And test.csv has no labels, so I can't check how good the test predictions really are.
 
 ## 11. Conclusion
 
