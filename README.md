@@ -14,7 +14,7 @@ call, and score the 8,236 calls of `data/test.csv`.
 | 5 | Dummy and logistic baselines, decision tree, random forest, gradient boosting on shared 5-fold CV | done |
 | 6 | Tuning logistic regression (grid) and gradient boosting (random search) on average precision; model choice | done |
 | 7 | Threshold from out-of-fold F1 on the development set, single hold-out evaluation, precision–recall and gains | done |
-| 8 | Refit on all of `train.csv`, save with `joblib`, reload in a fresh process, write `predictions.csv`; conclusions | to do |
+| 8 | Refit on all of `train.csv`, save with `joblib`, reload in a fresh process, write `predictions.csv`; conclusions | done |
 
 ## Run
 
