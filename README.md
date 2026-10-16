@@ -1,3 +1,31 @@
+# Imamsidikov_ML_task_3 — Midterm Project: Bank Marketing
+
+MOP 3231 · Machine Learning (Python) · Task 3. All the work is in **`Imamsidikov_task3.ipynb`** (executed, with outputs),
+SEED = 2954. The goal: predict whether a client subscribes to a term deposit (`y`) from what is known **before** the
+call, and score the 8,236 calls of `data/test.csv`.
+
+| Part | Content | Status |
+|---|---|---|
+| 0 | Version check, SEED | done |
+| 1 | Loading and checking the data | done |
+| 2 | EDA: target imbalance, numeric features, economic indicators | done |
+| 3 | EDA: categorical features, `unknown`, `pdays = 999`, why `duration` is dropped | done |
+| 4–6 | Validation split, preprocessing pipeline, baselines, stronger models, CV and tuning | to do |
+| 7–8 | Final evaluation and threshold, refit, save, reload, score `test.csv` | to do |
+
+## Run
+
+```bash
+python3.12 -m venv .Imamsidikov_ML_task_3
+source .Imamsidikov_ML_task_3/bin/activate
+pip install -r requirements.txt
+jupyter notebook Imamsidikov_task3.ipynb   # Kernel → Restart & Run All
+```
+
+---
+
+The original starter README follows.
+
 # Task 3 — Midterm Project
 
 Starter files for **Task 3** (graded, 50 points, project with defence, due Sunday 18 October 2026, 23:59 Canvas
