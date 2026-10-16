@@ -10,7 +10,7 @@ call, and score the 8,236 calls of `data/test.csv`.
 | 1 | Loading and checking the data | done |
 | 2 | EDA: target imbalance, numeric features, economic indicators | done |
 | 3 | EDA: categorical features, `unknown`, `pdays = 999`, why `duration` is dropped | done |
-| 4 | Stratified 80/20 development/hold-out split, preprocessing `ColumnTransformer` (pdays flag, one-hot with `unknown`) | to do |
+| 4 | Stratified 80/20 development/hold-out split, preprocessing `ColumnTransformer` (pdays flag, one-hot with `unknown`) | done |
 | 5 | Dummy and logistic baselines, decision tree, random forest, gradient boosting on shared 5-fold CV | to do |
 | 6 | Tuning logistic regression (grid) and gradient boosting (random search) on average precision; model choice | to do |
 | 7–8 | Final evaluation and threshold, refit, save, reload, score `test.csv` | to do |
