@@ -8,7 +8,7 @@ call, and score the 8,236 calls of `data/test.csv`.
 |---|---|---|
 | 0 | Version check, SEED | done |
 | 1 | Loading and checking the data | done |
-| 2 | EDA: target imbalance, numeric features, economic indicators | to do |
+| 2 | EDA: target imbalance, numeric features, economic indicators | done |
 | 3 | EDA: categorical features, `unknown`, `pdays = 999`, why `duration` is dropped | to do |
 | 4–6 | Validation split, preprocessing pipeline, baselines, stronger models, CV and tuning | to do |
 | 7–8 | Final evaluation and threshold, refit, save, reload, score `test.csv` | to do |
